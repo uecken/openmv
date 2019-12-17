@@ -1,7 +1,7 @@
-# CIFAR10 Example
-import sensor, image, time, os, nn
-import time
+# CIFAR10 Exampleimport time
 from pyb import Pin, Timer
+import sensor, time, image
+import sensor, image, time, os, nn
 
 sensor.reset()                         # Reset and initialize the sensor.
 sensor.set_contrast(2)
@@ -25,13 +25,13 @@ while(True):
     out = net.forward(img)
     max_idx = out.index(max(out))
     score = int(out[max_idx]*100)
-    if (score < 60):
+    if (score < 58):
         score_str = "??:??%"
     else:
         if (labels[max_idx] == "cat"):
            score_str = "%s:%d%% "%(labels[max_idx], score)
 
-           # === Output Sound ===
+           # ===Output Sound ===
            tim = Timer(4, freq=1000) # Frequency in Hz
            # Generate a 1KHz square wave on TIM4 with 50%, 75% and 50% duty cycles on channels 1, 2 and 3 respectively.
            ch1 = tim.channel(1, Timer.PWM, pin=Pin("P7"), pulse_width_percent=50)
