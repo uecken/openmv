@@ -1,5 +1,7 @@
 # CIFAR10 Example
 import sensor, image, time, os, nn
+import time
+from pyb import Pin, Timer
 
 sensor.reset()                         # Reset and initialize the sensor.
 sensor.set_contrast(2)
@@ -28,6 +30,15 @@ while(True):
     else:
         if (labels[max_idx] == "cat"):
            score_str = "%s:%d%% "%(labels[max_idx], score)
+
+           # === Output Sound ===
+           tim = Timer(4, freq=1000) # Frequency in Hz
+           # Generate a 1KHz square wave on TIM4 with 50%, 75% and 50% duty cycles on channels 1, 2 and 3 respectively.
+           ch1 = tim.channel(1, Timer.PWM, pin=Pin("P7"), pulse_width_percent=50)
+           time.sleep(1000)
+           ch1 = tim.channel(1, Timer.PWM, pin=Pin("P7"), pulse_width_percent=0)
+
+
     img.draw_string(0, 0, score_str, color=(255, 0, 0))
 
     print(clock.fps())             # Note: OpenMV Cam runs about half as fast when connected
